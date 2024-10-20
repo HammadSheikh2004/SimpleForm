@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Generate Input Fields</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="heading h3 text-center py-1 shadow rounded text-white bg-primary my-4">
+            Student Information
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <form action="" method="post">
+                    <input type="text" class="form-control"
+                        placeholder="Search: How many Student are Enroll in Specific Field!" name="course" id="search">
+                    <button type="submit" class="btn btn-primary mt-2" id="btn">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="number" class="form-control my-4" placeholder="How many Field are you Generate!"
+                    name="field_no" id="fieldNo">
+                <div class="row my-2">
+                    <div class="col-md-6">
+                        <input type="text" placeholder="Spring or Fall Id" name="" id="id" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="" id="email" placeholder="Spring or fall" class="form-control">
+                    </div>
+                </div>
+                <form action="">
+                    <div id="container"></div>
+                </form>
+
+                <button type="submit" class="btn btn-primary" id="btn">Generate</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let container = document.getElementById("container");
+        let btn = document.getElementById("btn");
+        let mainId = document.getElementById("id");
+        let mainEmail = document.getElementById("email");
+
+        mainId.addEventListener('input', function () {
+            let idValue = this.value;
+            let prefix = idValue.substring(0, 8); // Extract everything before the numeric part (sp24bsse)
+            let baseId = idValue.substring(8); // Extract the numeric part (0001)
+            let emailValue = idValue + '@gmail.com'; // Append @gmail.com to the ID
+
+            mainEmail.value = emailValue;
+
+            btn.addEventListener("click", () => {
+                let generateField = parseInt(document.getElementById("fieldNo").value);
+                container.innerHTML = '';
+
+                for (let i = 0; i < generateField; i++) {
+                    let currentId = prefix + (parseInt(baseId) + i).toString().padStart(baseId.length, '0');
+                    let currentEmail = currentId + '@gmail.com';
+
+                    let row = document.createElement("div");
+                    row.className = "row mb-3";
+
+                    let colId = document.createElement("div");
+                    colId.className = "col-md-6";
+                    let inputId = document.createElement("input");
+                    inputId.className = "form-control";
+                    inputId.setAttribute("type", "text");
+                    inputId.setAttribute("placeholder", `Student ID ${i + 1}`);
+                    inputId.setAttribute("value", currentId); // Set the ID value with increment
+                    colId.appendChild(inputId);
+
+                    let colEmail = document.createElement("div");
+                    colEmail.className = "col-md-6";
+                    let inputEmail = document.createElement("input");
+                    inputEmail.className = "form-control";
+                    inputEmail.setAttribute("type", "email");
+                    inputEmail.setAttribute("placeholder", `Student Email ${i + 1}`);
+                    inputEmail.setAttribute("value", currentEmail); // Set the Email value with incremented ID
+                    colEmail.appendChild(inputEmail);
+
+                    row.appendChild(colId);
+                    row.appendChild(colEmail);
+                    container.appendChild(row);
+                }
+            });
+        });
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
